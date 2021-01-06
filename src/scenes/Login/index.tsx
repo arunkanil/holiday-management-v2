@@ -2,7 +2,7 @@ import './index.less';
 
 import * as React from 'react';
 
-import { Button, Card, Col, Form, Icon, Input, Row } from 'antd';
+import { Button, Card, Col, Divider, Form, Icon, Input, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import logo from '../../images/abp-logo-long.png';
 import windows from '../../images/microsoft.svg';
@@ -43,6 +43,7 @@ export interface ILoginProps extends FormComponentProps {
 class Login extends React.Component<ILoginProps> {
   state = {
     loading: false,
+    loading1: false,
   };
   handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -52,10 +53,20 @@ class Login extends React.Component<ILoginProps> {
         this.setState({ loading: true });
         await this.props
           .authenticationStore!.login(values)
-          .then((response) => {
+          .then(async (response) => {
+            this.setState({ loading: false });
             // sessionStorage.setItem('rememberMe', loginModel.rememberMe ? '1' : '0');
-            const { state } = this.props.location;
-            window.location = state ? state.from.pathname : '/';
+            // const { state } = this.props.location;
+            console.log('login request', values);
+            console.log('login response', response);
+            console.log('abp session value after login', await abp.session);
+            console.log(this.props.location);
+            // const { state } = this.props.location;
+            // window.location = state ? state.from.pathname : '/';
+            console.log('href', window.location.href);
+            window.location.href = '/holiday';
+
+            // window.location.reload(true);
           })
           .catch((error) => {
             this.setState({ loading: false });
@@ -64,11 +75,13 @@ class Login extends React.Component<ILoginProps> {
     });
   };
   azureSignIn = () => {
+    this.setState({ loading1: true });
     authProvider
       .loginPopup(loginRequest2)
       .then((res) => this.handleResponse(res))
       .catch((error) => {
         console.error(error);
+        this.setState({ loading1: false });
       });
   };
   handleResponse = async (response: any) => {
@@ -79,27 +92,30 @@ class Login extends React.Component<ILoginProps> {
     if (response !== null) {
       console.log(response);
       let values: any;
-      username = response.account.userName;
+      let username = response.account.userName;
       authProvider
         .acquireTokenPopup(tokenRequest)
         .then((result) => {
           console.log(result);
           console.log('access_token', result.accessToken);
+          localStorage.setItem('azureToken',result.accessToken);
+          localStorage.setItem('expiresOn',result.expiresOn.toString());
           console.log('username', result.account.userName);
           values = {
-            userNameOrEmailAddress: result.account.userName,
+            userNameOrEmailAddress: username,
             password: result.accessToken,
             useAzureAD: true,
           };
         })
         .then(async (res) => {
           await this.props.authenticationStore!.login(values);
-          const { state } = this.props.location;
-          window.location = state ? state.from.pathname : '/';
+          // const { state } = this.props.location;
+          this.setState({ loading1: false });
+          window.location.href = '/holiday';
         })
-        .then()
         .catch((error) => {
           console.error(error);
+          this.setState({ loading1: false });
         });
       console.log(username);
     } else {
@@ -125,7 +141,12 @@ class Login extends React.Component<ILoginProps> {
   };
 
   public render() {
+    console.log('Login Page : abp session value after login', abp.session);
     let { from } = this.props.location.state || { from: { pathname: '/' } };
+
+    console.log('Authentication Store', this.props.authenticationStore);
+    console.log('Authenticated status', this.props.authenticationStore!.isAuthenticated);
+
     if (this.props.authenticationStore!.isAuthenticated) return <Redirect to={from} />;
 
     const { getFieldDecorator } = this.props.form;
@@ -139,66 +160,70 @@ class Login extends React.Component<ILoginProps> {
         <div className="col-md-6 p-0 bg-white h-md-100 loginarea">
           <div className="d-md-flex align-items-center h-md-100 justify-content-center">
             {/* <Col className="name"> */}
-              <Form className="" onSubmit={this.handleSubmit}>
-                <Row>
-                  <Row style={{ marginTop: 10 }}>
-                    <Col>
-                      <img src={logo} alt="arcelor logo" className="mx-auto d-block" style={{ width: '60%', marginLeft: '30px' }} />
-                    </Col>
-                  </Row>
-                  <Row style={{ marginTop: 10, textAlign: 'center' }}>
-                    <Col>
-                      <Card>
-                        <div style={{ textAlign: 'center' }}>
-                          <h3>{L('Holiday Approval System')}</h3>
-                        </div>
-                        <FormItem>
-                          {getFieldDecorator('userNameOrEmailAddress', { rules: rules.userNameOrEmailAddress })(
-                            <Input
-                              placeholder={'Username or Email'}
-                              style={{ width: '250px' }}
-                              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                              size="large"
-                            />
-                          )}
-                        </FormItem>
-                        <FormItem>
-                          {getFieldDecorator('password', { rules: rules.password })(
-                            <Input
-                              placeholder={L('Password')}
-                              style={{ width: '250px' }}
-                              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                              type="password"
-                              size="large"
-                            />
-                          )}
-                        </FormItem>
-                        {/* <FormItem>{getFieldDecorator('useAzureAD')(<Checkbox>Use Azure AD</Checkbox>)}</FormItem> */}
-                        <Row style={{ textAlign: 'center' }}>
-                          <Col>
-                            <Button
-                              loading={this.state.loading}
-                              style={{ backgroundColor: '#f5222d', color: 'white' }}
-                              htmlType={'submit'}
-                              type="danger"
-                            >
-                              {'Login'}
-                            </Button>
-                            <Button
-                              onClick={this.azureSignIn}
-                              style={{ backgroundColor: '#f5222d', color: 'white', marginLeft: '15px' }}
-                              type="danger"
-                            >
-                              <img src={windows} style={{ width: '14px', marginRight: '5px' }} />
-                              {'Login using Azure'}
-                            </Button>
-                          </Col>
-                        </Row>
-                      </Card>
-                    </Col>
-                  </Row>
+            <Form className="" onSubmit={this.handleSubmit}>
+              <Row>
+                <Row style={{ marginTop: 10 }}>
+                  <Col>
+                    <img src={logo} alt="arcelor logo" className="mx-auto d-block" style={{ width: '60%', marginLeft: '30px' }} />
+                  </Col>
                 </Row>
-              </Form>
+                <Row style={{ marginTop: 10, textAlign: 'center' }}>
+                  <Col>
+                    <Card>
+                      <div style={{ textAlign: 'center' }}>
+                        <h3>{L('Holiday Approval System')}</h3>
+                      </div>
+
+                      <Button
+                        loading={this.state.loading1}
+                        onClick={this.azureSignIn}
+                        style={{ color: 'white', marginTop: '50px', width: '165px' }}
+                        type="primary"
+                      >
+                        <img src={windows} style={{ width: '14px',marginRight:'5px' }} />
+                        {'Login'}
+                      </Button>
+                      <div><small className="text-muted">Popup blockers interfere with the operation of this application.Please disable your popup blocker.</small></div>
+                      <Divider>Or</Divider>
+                      <FormItem>
+                        {getFieldDecorator('userNameOrEmailAddress', { rules: rules.userNameOrEmailAddress })(
+                          <Input
+                            placeholder={'Username or Email'}
+                            style={{ width: '250px' }}
+                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            size="large"
+                          />
+                        )}
+                      </FormItem>
+                      <FormItem>
+                        {getFieldDecorator('password', { rules: rules.password })(
+                          <Input
+                            placeholder={L('Password')}
+                            style={{ width: '250px' }}
+                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                            type="password"
+                            size="large"
+                          />
+                        )}
+                      </FormItem>
+                      {/* <FormItem>{getFieldDecorator('useAzureAD')(<Checkbox>Use Azure AD</Checkbox>)}</FormItem> */}
+                      <Row style={{ textAlign: 'center' }}>
+                        <Col>
+                          <Button
+                            loading={this.state.loading}
+                            style={{ backgroundColor: '#f5222d', color: 'white', width: '165px' }}
+                            htmlType={'submit'}
+                            type="danger"
+                          >
+                            {'Login as SuperAdmin'}
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Card>
+                  </Col>
+                </Row>
+              </Row>
+            </Form>
             {/* </Col> */}
           </div>
           <Row className="footnote">
