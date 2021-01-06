@@ -188,11 +188,11 @@ export default class PublicHolidayMaster extends React.Component {
                     ))}
                   </Form.Control>
                   <small className="text-muted">Hold ctrl key to select multiple countries.</small>
-                  {this.state.country.length > 0 ? <div className="text-danger">Selected Countries</div> : null}
-                  <div className="text-danger">
+                  {this.state.country.length > 0 ? <div className="text-primary">Selected Countries</div> : null}
+                  <div className="text-primary">
                     {this.state.countryList.map((item) =>
                       // console.log(item,this.state.country)
-                      this.state.country.toString().includes(item.id) ? <span>{item.name},</span> : null
+                      this.state.country.toString().includes(item.id) ? <span>{item.name}, </span> : null
                     )}
                   </div>
                 </Form.Group>

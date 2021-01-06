@@ -260,6 +260,19 @@ export default class EmployeeManagement extends React.Component {
     console.log(result);
     if (result.success === true) {
       message.success('Employee added successfully');
+      this.setState({
+        firstName: "",
+        lastName: "",
+        emailAddress: "",
+        employeeId: "",
+        userName: "",
+        officeLocation: "",
+        reportsTo: "",
+        secondaryApprover: "",
+        designationId: "",
+        departmentId: "",
+        countryId: "",
+      })
       this.getEmployees();
       this.getDataLists();
     } else {

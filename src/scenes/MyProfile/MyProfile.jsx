@@ -4,7 +4,7 @@ import { Button, Form, Col } from 'react-bootstrap';
 import user_logo from '../../images/user.svg';
 import { PostAPICall, DeleteAPICall, GetAPICall } from '../../services/dataservice';
 import { GET_ADMINLEAVEDASHBOARDS, GET_CURRENTUSER, GET_LEAVETYPE, GET_MYLEAVEDASHBOARDS, POST_LEAVEREQUEST } from '../../constants/urls';
-import { } from './MyProfile.css';
+import {} from './MyProfile.css';
 
 import moment from 'moment';
 
@@ -36,7 +36,7 @@ export default class EmployeeProfile extends React.Component {
       showWeekSeparators: true,
       selectRange: false,
       firstDayOfWeek: 0,
-      currentUser: {}
+      currentUser: {},
     };
   }
   async componentDidMount() {
@@ -64,7 +64,8 @@ export default class EmployeeProfile extends React.Component {
       leaveApproved = [];
 
     leaveTypeDetails.forEach((leaveItems) => {
-      let ltc = leaveItems.takenCount, lac = leaveItems.totalCount - leaveItems.approvedCount;
+      let ltc = leaveItems.takenCount,
+        lac = leaveItems.totalCount - leaveItems.approvedCount;
 
       leaveItems.requested.forEach((requestDate) => {
         let formatted_date = requestDate.slice(0, 10);
@@ -89,7 +90,7 @@ export default class EmployeeProfile extends React.Component {
       },
       publicHolidays,
       loading: false,
-      leaveTypeDetails: leaveTypeDetails
+      leaveTypeDetails: leaveTypeDetails,
     });
 
     this.updateClasses();
@@ -116,34 +117,33 @@ export default class EmployeeProfile extends React.Component {
     }
   }
   onPanelChange = (date, mode) => {
-    this.setState({ year: date.year() }, function () { this.getMyLeaveDashboards(); });
-    console.log(date.year(), "panel change", mode);
-
-  }
+    this.setState({ year: date.year() }, function () {
+      this.getMyLeaveDashboards();
+    });
+    console.log(date.year(), 'panel change', mode);
+  };
   onFullRender = (date) => {
-
     let style;
     const day = date.date();
     let value = date.format().split('T')[0];
     // console.log('publicholiday', this.state.publicHolidays)
     let holidates = [];
-    this.state.publicHolidays.forEach(element => {
+    this.state.publicHolidays.forEach((element) => {
       let evalue = element.date.split('T')[0];
-      holidates.push(evalue)
+      holidates.push(evalue);
     });
     // console.log(holidates)
 
     if (this.state.customCSSclasses.leaveRequested.includes(value)) {
-      style = { backgroundColor: "#ED8936", color: "white", textAlign: "center" };
+      style = { backgroundColor: '#ED8936', color: 'white', textAlign: 'center' };
     } else if (this.state.customCSSclasses.leaveApproved.includes(value)) {
-      style = { backgroundColor: "#48BB78", color: "white", textAlign: "center" };
+      style = { backgroundColor: '#48BB78', color: 'white', textAlign: 'center' };
     } else if (this.state.customCSSclasses.leaveRejected.includes(value)) {
-      style = { backgroundColor: "#808588", color: "white", textAlign: "center" };
-    }
-    else if (holidates.includes(value)) {
-      style = { backgroundColor: "#E95A5A", color: "white", textAlign: "center" };
+      style = { backgroundColor: '#808588', color: 'white', textAlign: 'center' };
+    } else if (holidates.includes(value)) {
+      style = { backgroundColor: '#E95A5A', color: 'white', textAlign: 'center' };
     } else {
-      style = { textAlign: "center" };
+      style = { textAlign: 'center' };
     }
 
     return <div style={style}>{day}</div>;
@@ -160,7 +160,7 @@ export default class EmployeeProfile extends React.Component {
     let formattedMoment = value.format().slice(0, 10);
 
     if (datesArray.includes(formattedMoment)) {
-      this.props.history.push({ pathname: '/leave_details', state: { date: formattedMoment }, });
+      this.props.history.push({ pathname: '/leave_details', state: { date: formattedMoment } });
     }
   };
 
@@ -192,13 +192,13 @@ export default class EmployeeProfile extends React.Component {
           <div className="col" style={{ textAlign: 'right' }}>
             <button type="button" className="btn btn-primary" onClick={this.RequestRedirect}>
               Request Leave
-        </button>
+            </button>
           </div>
         </div>
         <hr />
         <Spin spinning={this.state.loading} tip="Please wait...">
           <div className="row">
-            <div className="col-sm border-right" >
+            <div className="col-sm border-right">
               <div className="row">
                 <img src={user_logo} width="100px" />
                 <div className="col mt-2">
@@ -217,34 +217,44 @@ export default class EmployeeProfile extends React.Component {
                   {this.state.leaveTypeDetails.map((leaveItem, index) => (
                     <span>
                       <span>{leaveItem.leaveType}</span>
-                      <div className='row' >
-                        <div className='col' style={{ color: "#48bb78", fontWeight: "1000" }}>{leaveItem.takenCount} taken | <span style={{ color: "#3b8bf3", fontWeight: "1000" }} ><span style={{ fontFamily: "system-ui" }}>{leaveItem.totalCount - leaveItem.approvedCount}</span> Remaining</span>
+                      <div className="row">
+                        <div className="col" style={{ color: '#48bb78', fontWeight: '1000' }}>
+                          {leaveItem.approvedCount} taken |{' '}
+                          <span style={{ color: '#3b8bf3', fontWeight: '1000' }}>
+                            <span style={{ fontFamily: 'system-ui' }}>{leaveItem.totalCount - leaveItem.approvedCount}</span> Remaining
+                          </span>
                         </div>
                       </div>
                       <br />
                     </span>
                   ))}
-
                 </div>
-                <div className="col" >
+                <div className="col">
                   <br />
-                  <h6 style={{ color: "#e95a5a" }}>Public Holidays</h6>
+                  <h6 style={{ color: '#e95a5a' }}>Public Holidays</h6>
                   {this.state.publicHolidays.map((eventItem, index) => (
                     <span>
                       <br />
-                      <div className='row'>
-                        <div className='col' style={{ fontWeight: "1000", color: "#e95a5a" }}>{eventItem.holiday} : <span style={{ color: "#e95a5a", fontWeight: "1000" }} >{moment(eventItem.date).format('DD-MM-YYYY')}</span></div>
-
+                      <div className="row">
+                        <div className="col" style={{ fontWeight: '1000', color: '#e95a5a' }}>
+                          {eventItem.holiday} :{' '}
+                          <span style={{ color: '#e95a5a', fontWeight: '1000' }}>{moment(eventItem.date).format('DD-MMM-YYYY')}</span>
+                        </div>
                       </div>
                     </span>
                   ))}
                 </div>
               </div>
-
             </div>
             <div className="col-sm">
               <div id="calendar">
-                <Calendar className="card-calendar" dateFullCellRender={this.onFullRender} onPanelChange={this.onPanelChange} onSelect={this.onDateSelect} fullscreen={false} />
+                <Calendar
+                  className="card-calendar"
+                  dateFullCellRender={this.onFullRender}
+                  onPanelChange={this.onPanelChange}
+                  onSelect={this.onDateSelect}
+                  fullscreen={false}
+                />
               </div>
               <div className="row justify-content-center">
                 <div className="col ml-5">
@@ -256,7 +266,6 @@ export default class EmployeeProfile extends React.Component {
                     <span className="dot" style={{ backgroundColor: '#48bb78' }}></span>
                     <span className="mt-1 pl-3">Approved</span>
                   </div>
-
                 </div>
                 <div className="col">
                   <div className="row mt-3">
