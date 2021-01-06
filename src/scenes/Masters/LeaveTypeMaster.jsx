@@ -62,6 +62,7 @@ export default class LeaveTypeMaster extends React.Component {
       this.getLeaveType();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
   handleDelete(value) {
@@ -80,6 +81,7 @@ export default class LeaveTypeMaster extends React.Component {
         message.success('Deleted Successfully');
       } else {
         message.error('Something went wrong');
+        this.setState({ loading: false });
       }
     }
     this.setState({ showDeleteModal: false });
@@ -111,6 +113,7 @@ export default class LeaveTypeMaster extends React.Component {
       this.getLeaveType();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
 
@@ -125,21 +128,23 @@ export default class LeaveTypeMaster extends React.Component {
             </button>
           </div>
           <ModalWrapper show={this.state.showModal} onHide={() => this.setState({ showModal: false })} ModalTitle="Add New Leave Type">
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group controlId="formLeaveType">
-                <Form.Label>
-                  Leave Type <span className="required">*</span>
-                </Form.Label>
-                <Form.Control onChange={this.formChange} type="text" required name="name" placeholder="Enter leave type" />
-              </Form.Group>
-              <Form.Group controlId="formUniqueID">
-                <Form.Label>Description</Form.Label>
-                <Form.Control onChange={this.formChange} as="textarea" rows="3" name="description" placeholder="Enter description" />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
+            <Spin spinning={this.state.loading} tip="Please wait...">
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group controlId="formLeaveType">
+                  <Form.Label>
+                    Leave Type <span className="required">*</span>
+                  </Form.Label>
+                  <Form.Control onChange={this.formChange} type="text" required name="name" placeholder="Enter leave type" />
+                </Form.Group>
+                <Form.Group controlId="formUniqueID">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control onChange={this.formChange} as="textarea" rows="3" name="description" placeholder="Enter description" />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </Spin>
           </ModalWrapper>
           <ModalWrapper
             show={this.state.showDeleteModal}

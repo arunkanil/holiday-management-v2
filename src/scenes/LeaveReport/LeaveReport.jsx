@@ -57,10 +57,10 @@ export default class LeaveReport extends React.Component {
     this.setState({ loading: true });
     let result;
     if (isGranted('Pages.Admin') === true) {
-      result = await GetAPICall(`${GET_LEAVEREQUESTFORADMIN}MaxResultCount=1000`);
+      result = await GetAPICall(`${GET_LEAVEREQUESTFORADMIN}MaxResultCount=2000`);
     }
     else{
-      result = await GetAPICall(`${GET_LEAVEREQUESTFORME}?MaxResultCount=1000`);
+      result = await GetAPICall(`${GET_LEAVEREQUESTFORME}?MaxResultCount=2000`);
     }
     console.log(result, 'getLeaveRequests');
     this.setState({ loading: false, rowData: result.result.items });
@@ -88,7 +88,7 @@ export default class LeaveReport extends React.Component {
     e.preventDefault();
     this.setState({ loading: true });
     let result = await GetAPICall(
-      `${GET_LEAVEREQUESTFORADMIN}MaxResultCount=1000&Status=${this.state.status}&FromDate=${this.state.fromDate}&ToDate=${this.state.toDate}`
+      `${GET_LEAVEREQUESTFORADMIN}MaxResultCount=2000&Status=${this.state.status}&FromDate=${this.state.fromDate}&ToDate=${this.state.toDate}`
     );
     console.log(result, 'getLeaveRequests');
     this.setState({ loading: false, rowData: result.result.items });

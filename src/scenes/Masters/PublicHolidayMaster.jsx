@@ -106,6 +106,7 @@ export default class PublicHolidayMaster extends React.Component {
         message.success('Deleted Successfully');
       } else {
         message.error('Something went wrong');
+        this.setState({ loading: false });
       }
     }
     this.setState({ showDeleteModal: false });
@@ -141,6 +142,7 @@ export default class PublicHolidayMaster extends React.Component {
       this.getPublicHolidays();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
   yearRenderer() {
@@ -180,11 +182,19 @@ export default class PublicHolidayMaster extends React.Component {
                   >
                     <option value="" disabled selected hidden>
                       Choose...
-                  </option>
+                    </option>
                     {this.state.countryList.map((item) => (
                       <option value={item.id}>{item.name}</option>
                     ))}
                   </Form.Control>
+                  <small className="text-muted">Hold ctrl key to select multiple countries.</small>
+                  {this.state.country.length > 0 ? <div className="text-danger">Selected Countries</div> : null}
+                  <div className="text-danger">
+                    {this.state.countryList.map((item) =>
+                      // console.log(item,this.state.country)
+                      this.state.country.toString().includes(item.id) ? <span>{item.name},</span> : null
+                    )}
+                  </div>
                 </Form.Group>
                 <Form.Group controlId="exampleForm.ControlSelect2">
                   <Form.Label>
@@ -192,7 +202,15 @@ export default class PublicHolidayMaster extends React.Component {
                   </Form.Label>
                   <div className="row mx-0">
                     <input className="form-control col" type="date" placeholder="yyyy-mm-dd" required name="fromDate" onChange={this.formChange} />
-                    <input className="form-control col" type="date" placeholder="yyyy-mm-dd" min={this.state.fromDate} required name="toDate" onChange={this.formChange} />
+                    <input
+                      className="form-control col"
+                      type="date"
+                      placeholder="yyyy-mm-dd"
+                      min={this.state.fromDate}
+                      required
+                      name="toDate"
+                      onChange={this.formChange}
+                    />
                   </div>
                 </Form.Group>
                 <Form.Group id="formGridCheckbox">
@@ -217,7 +235,7 @@ export default class PublicHolidayMaster extends React.Component {
                 </Form.Group>
                 <Button variant="primary" type="submit">
                   Submit
-              </Button>
+                </Button>
               </Form>
             </Spin>
           </ModalWrapper>

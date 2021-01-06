@@ -213,6 +213,10 @@ export default class EmployeeManagement extends React.Component {
       message.success('File uploaded succesfully');
       this.setState({ file: result.result, loading: false });
     }
+    else {
+      message.error('Something went wrong');
+      this.setState({ loading: false });
+    }
   };
   bulkImport = async (e) => {
     e.preventDefault();
@@ -260,6 +264,7 @@ export default class EmployeeManagement extends React.Component {
       this.getDataLists();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
   handleDelete(value) {
@@ -279,6 +284,7 @@ export default class EmployeeManagement extends React.Component {
       this.getDataLists();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
   handleEdit(value) {
@@ -325,6 +331,7 @@ export default class EmployeeManagement extends React.Component {
       this.getDataLists();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
   onRowClicked = (event) => {

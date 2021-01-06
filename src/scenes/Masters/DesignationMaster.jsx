@@ -62,6 +62,7 @@ export default class DepartmentMaster extends React.Component {
       this.getDesignation();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
   handleDelete(value) {
@@ -80,10 +81,11 @@ export default class DepartmentMaster extends React.Component {
         message.success('Deleted Successfully');
       } else {
         message.error('Something went wrong');
+        this.setState({ loading: false });
       }
     }
     this.setState({ showDeleteModal: false });
-      this.getDesignation();
+    this.getDesignation();
   }
 
   handleEdit(value) {
@@ -111,6 +113,7 @@ export default class DepartmentMaster extends React.Component {
       this.getDesignation();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
 
@@ -125,21 +128,23 @@ export default class DepartmentMaster extends React.Component {
             </button>
           </div>
           <ModalWrapper show={this.state.showModal} onHide={() => this.setState({ showModal: false })} ModalTitle="Add New Designation">
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group controlId="formDepartmentName">
-                <Form.Label>
-                  Designation Name <span className="required">*</span>
-                </Form.Label>
-                <Form.Control onChange={this.formChange} type="text" required name="name" placeholder="Enter name" />
-              </Form.Group>
-              <Form.Group controlId="formUniqueID">
-                <Form.Label>Description</Form.Label>
-                <Form.Control onChange={this.formChange} as="textarea" rows="3" name="description" placeholder="Enter description" />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
+            <Spin spinning={this.state.loading} tip="Please wait...">
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group controlId="formDepartmentName">
+                  <Form.Label>
+                    Designation Name <span className="required">*</span>
+                  </Form.Label>
+                  <Form.Control onChange={this.formChange} type="text" required name="name" placeholder="Enter name" />
+                </Form.Group>
+                <Form.Group controlId="formUniqueID">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control onChange={this.formChange} as="textarea" rows="3" name="description" placeholder="Enter description" />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </Spin>
           </ModalWrapper>
           <ModalWrapper
             show={this.state.showDeleteModal}

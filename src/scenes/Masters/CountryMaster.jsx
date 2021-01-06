@@ -69,6 +69,7 @@ export default class CountryMaster extends React.Component {
       this.setState({ showModal: false });
       this.getCountry();
     } else {
+      this.setState({ loading: false });
       message.error('Something went wrong');
     }
   }
@@ -88,6 +89,7 @@ export default class CountryMaster extends React.Component {
         message.success('Deleted Successfully');
       } else {
         message.error('Something went wrong');
+        this.setState({ loading: false });
       }
     }
     this.setState({ showDeleteModal: false });
@@ -122,6 +124,7 @@ export default class CountryMaster extends React.Component {
       this.getCountry();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
 
@@ -136,49 +139,51 @@ export default class CountryMaster extends React.Component {
             </button>
           </div>
           <ModalWrapper show={this.state.showModal} onHide={() => this.setState({ showModal: false })} ModalTitle="Add New Country">
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group controlId="formCountryName">
-                <Form.Label>
-                  Country Name <span className="required">*</span>
-                </Form.Label>
-                <Form.Control type="text" required onChange={this.formChange} name="name" placeholder="Enter name" />
-              </Form.Group>
-              <Form.Group controlId="formUniqueID">
-                <Form.Label>
-                  Unique Code <span className="required">*</span>
-                </Form.Label>
-                <Form.Control type="text" required onChange={this.formChange} name="code" placeholder="Enter code" />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>
-                  Weekend 1 <span className="required">*</span>
-                </Form.Label>
-                <Form.Control as="select" required name="weekend1" onChange={this.formChange}>
-                  <option value="" disabled selected hidden>
-                    Choose...
-                  </option>
-                  {Days.map((item) => (
-                    <option value={item.value}>{item.day}</option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>
-                  Weekend 2 <span className="required">*</span>
-                </Form.Label>
-                <Form.Control as="select" required name="weekend2" onChange={this.formChange}>
-                  <option value="" disabled selected hidden>
-                    Choose...
-                  </option>
-                  {Days.map((item) => (
-                    <option value={item.value}>{item.day}</option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
+            <Spin spinning={this.state.loading} tip="Please wait...">
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group controlId="formCountryName">
+                  <Form.Label>
+                    Country Name <span className="required">*</span>
+                  </Form.Label>
+                  <Form.Control type="text" required onChange={this.formChange} name="name" placeholder="Enter name" />
+                </Form.Group>
+                <Form.Group controlId="formUniqueID">
+                  <Form.Label>
+                    Unique Code <span className="required">*</span>
+                  </Form.Label>
+                  <Form.Control type="text" required onChange={this.formChange} name="code" placeholder="Enter code" />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>
+                    Weekend 1 <span className="required">*</span>
+                  </Form.Label>
+                  <Form.Control as="select" required name="weekend1" onChange={this.formChange}>
+                    <option value="" disabled selected hidden>
+                      Choose...
+                    </option>
+                    {Days.map((item) => (
+                      <option value={item.value}>{item.day}</option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>
+                    Weekend 2 <span className="required">*</span>
+                  </Form.Label>
+                  <Form.Control as="select" required name="weekend2" onChange={this.formChange}>
+                    <option value="" disabled selected hidden>
+                      Choose...
+                    </option>
+                    {Days.map((item) => (
+                      <option value={item.value}>{item.day}</option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </Spin>
           </ModalWrapper>
           <ModalWrapper
             show={this.state.showDeleteModal}

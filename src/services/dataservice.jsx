@@ -13,6 +13,7 @@ export async function GetAPICall(url) {
     // handle error
     console.log(error.response);
     message.error(error.response.data.error.message);
+    return error.response;
   });
   return result.data;
 }
@@ -21,6 +22,7 @@ export async function PostAPICall(url, value) {
     // handle error
     console.log(error.response);
     message.error(error.response.data.error.message);
+    return error.response;
   });
   return result.data;
 }
@@ -30,6 +32,7 @@ export async function DeleteAPICall(url, value) {
     console.log(error.response);
     message.error('record cannot be deleted');
     message.error(error.response.data.error.message);
+    return error.response;
   });
   // .then((res) => {
   //   console.log(res,"in dataservice");
@@ -49,6 +52,7 @@ export async function PutAPICall(url, value) {
     // handle error
     console.log(error.response);
     message.error(error.response.data.error.message);
+    return error.response;
   });
   return result.data;
 }

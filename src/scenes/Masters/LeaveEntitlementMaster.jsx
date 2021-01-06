@@ -78,6 +78,7 @@ export default class LeaveEntitlementMaster extends React.Component {
       this.getLeaveEntitlement();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
   handleDelete(value) {
@@ -96,6 +97,7 @@ export default class LeaveEntitlementMaster extends React.Component {
         message.success('Deleted Successfully');
       } else {
         message.error('Something went wrong');
+        this.setState({ loading: false });
       }
     }
     this.setState({ showDeleteModal: false });
@@ -128,6 +130,7 @@ export default class LeaveEntitlementMaster extends React.Component {
       this.getLeaveEntitlement();
     } else {
       message.error('Something went wrong');
+      this.setState({ loading: false });
     }
   }
 
@@ -142,43 +145,45 @@ export default class LeaveEntitlementMaster extends React.Component {
             </button>
           </div>
           <ModalWrapper show={this.state.showModal} onHide={() => this.setState({ showModal: false })} ModalTitle="Add New Holiday">
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group controlId="exampleForm.ControlSelect1">
-                <Form.Label>
-                  Country <span className="required">*</span>
-                </Form.Label>
-                <Form.Control as="select" required name="contryId" onChange={this.formChange}>
-                  <option value="" disabled selected hidden>
-                    Choose...
-                  </option>
-                  {this.state.countryList.map((item) => (
-                    <option value={item.id}>{item.name}</option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-              <Form.Group controlId="exampleForm.ControlSelect2">
-                <Form.Label>
-                  Leave Type <span className="required">*</span>
-                </Form.Label>
-                <Form.Control as="select" required name="leaveTypeId" onChange={this.formChange}>
-                  <option value="" disabled selected hidden>
-                    Choose...
-                  </option>
-                  {this.state.leaveTypeList.map((item) => (
-                    <option value={item.id}>{item.name}</option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-              <Form.Group controlId="formDepartmentName">
-                <Form.Label>
-                  Leave Count <span className="required">*</span>
-                </Form.Label>
-                <Form.Control onChange={this.formChange} type="text" required name="leaveCount" placeholder="Enter no. of leaves" />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
+            <Spin spinning={this.state.loading} tip="Please wait...">
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Group controlId="exampleForm.ControlSelect1">
+                  <Form.Label>
+                    Country <span className="required">*</span>
+                  </Form.Label>
+                  <Form.Control as="select" required name="contryId" onChange={this.formChange}>
+                    <option value="" disabled selected hidden>
+                      Choose...
+                    </option>
+                    {this.state.countryList.map((item) => (
+                      <option value={item.id}>{item.name}</option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group controlId="exampleForm.ControlSelect2">
+                  <Form.Label>
+                    Leave Type <span className="required">*</span>
+                  </Form.Label>
+                  <Form.Control as="select" required name="leaveTypeId" onChange={this.formChange}>
+                    <option value="" disabled selected hidden>
+                      Choose...
+                    </option>
+                    {this.state.leaveTypeList.map((item) => (
+                      <option value={item.id}>{item.name}</option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group controlId="formDepartmentName">
+                  <Form.Label>
+                    Leave Count <span className="required">*</span>
+                  </Form.Label>
+                  <Form.Control onChange={this.formChange} type="text" required name="leaveCount" placeholder="Enter no. of leaves" />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </Spin>
           </ModalWrapper>
           <ModalWrapper
             show={this.state.showDeleteModal}
