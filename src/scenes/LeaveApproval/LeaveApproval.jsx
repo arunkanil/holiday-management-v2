@@ -130,7 +130,7 @@ export default class LeaveApproval extends React.Component {
           <div className="row">
             <div className="col">Full or half day leave</div>
             <div className="col font-weight-bold">
-              {this.state.objEditable.isHalfDay ? `Half day - ${this.state.objEditable.halfDayTime == 1 ? 'Morning' : 'Afternoon'}` : 'Full Day'}
+              {this.state.objEditable.isHalfDay ? `Half day - ${this.state.objEditable.halfDayTime == 1 ? 'First Half' : 'Second Half'}` : 'Full Day'}
             </div>
           </div>
           <div className="row">

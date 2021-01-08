@@ -83,7 +83,7 @@ export default class LeaveReportDetails extends React.Component {
   dayRenderer = (value) => {
     console.log('dayRenderer');
     if (value.isHalfDay === true) {
-      return `Half day - ${value.halfDayTime == 1 ? 'Morning' : 'Afternoon'}`;
+      return `Half day - ${value.halfDayTime == 1 ? 'First Half' : 'Second Half'}`;
     } else {
       return 'Full Day';
     }

@@ -237,7 +237,7 @@ export default class RequestLeave extends React.Component {
                         halfDayTime: 1,
                       });
                     }}
-                    label="Morning"
+                    label="First Half"
                   />
                   <Form.Check
                     inline
@@ -248,7 +248,7 @@ export default class RequestLeave extends React.Component {
                         halfDayTime: 2,
                       });
                     }}
-                    label="Afternoon"
+                    label="Second Half"
                   />
                 </Form.Group>
               ) : null}

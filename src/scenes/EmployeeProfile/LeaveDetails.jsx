@@ -182,7 +182,7 @@ export default class LeaveDetails extends React.Component {
                 </tr>
                 <tr>
                   <td className="labels">Half or Full day:</td>
-                  <td>{this.state.leaveDetails.isHalfDay ? `Half day - ${(this.state.leaveDetails.halfDayTime == 1 ? "Morning" : "Afternoon")}` : 'Full day'}</td>
+                  <td>{this.state.leaveDetails.isHalfDay ? `Half day - ${(this.state.leaveDetails.halfDayTime == 1 ? "First Half" : "Second Half")}` : 'Full day'}</td>
                 </tr>
                 <tr>
                   <td className="labels">Leave Details:</td>
