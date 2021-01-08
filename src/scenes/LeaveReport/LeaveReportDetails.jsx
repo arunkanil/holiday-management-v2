@@ -82,8 +82,8 @@ export default class LeaveReportDetails extends React.Component {
   }
   dayRenderer = (value) => {
     console.log('dayRenderer');
-    if (value === true) {
-      return 'Half Day';
+    if (value.isHalfDay === true) {
+      return `Half day - ${value.halfDayTime == 1 ? 'Morning' : 'Afternoon'}`;
     } else {
       return 'Full Day';
     }
@@ -135,7 +135,7 @@ export default class LeaveReportDetails extends React.Component {
                     {['creationTime', 'fromDate', 'toDate', 'actionDate'].includes(item.property)
                       ? this.dateRenderer(this.state.details[item.property])
                       : item.property === 'isHalfDay'
-                      ? this.dayRenderer(this.state.details[item.property])
+                      ? this.dayRenderer(this.state.details)
                       : this.state.details[item.property]
                       ? this.state.details[item.property]
                       : 'no data'}

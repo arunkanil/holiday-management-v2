@@ -23,6 +23,7 @@ export default class RequestLeave extends React.Component {
       isHalfDay: false,
       isSingleDay: false,
       isMultiDay: true,
+      halfDayTime: 1,
 
       fromDate: '',
       toDate: '',
@@ -48,7 +49,8 @@ export default class RequestLeave extends React.Component {
   formChange(event) {
     const target = event.target;
     this.setState({ [target.name]: target.value }, function () {
-      if (target.name == 'fromDate' && (this.state.isHalfDay || this.state.isSingleDay)) {//If SingleHalf days selected, toDate mimics fromDate
+      if (target.name == 'fromDate' && (this.state.isHalfDay || this.state.isSingleDay)) {
+        //If SingleHalf days selected, toDate mimics fromDate
         this.setState({ toDate: target.value });
       }
       this.getConflits();
@@ -102,7 +104,9 @@ export default class RequestLeave extends React.Component {
   async handleSubmit(e) {
     e.preventDefault();
     if (this.state.toDate >= this.state.fromDate) {
-      if (this.state.leaveTypeId == '2' || this.state.leaveTypeId == '7') { await this.onFileUpload(); }
+      if (this.state.leaveTypeId == '2' || this.state.leaveTypeId == '7') {
+        await this.onFileUpload();
+      }
       this.setState({ loading1: true });
       let formdata = {};
       if (this.state.leaveTypeId == '2' || this.state.leaveTypeId == '7') {
@@ -111,6 +115,7 @@ export default class RequestLeave extends React.Component {
           details: this.state.details,
           fromDate: this.state.fromDate,
           toDate: this.state.toDate,
+          halfDayTime: this.state.halfDayTime,
           isHalfDay: this.state.isHalfDay,
           file: {
             fileName: this.state.file.fileName,
@@ -122,6 +127,7 @@ export default class RequestLeave extends React.Component {
         formdata = {
           leaveTypeId: this.state.leaveTypeId,
           details: this.state.details,
+          halfDayTime: this.state.halfDayTime,
           isHalfDay: this.state.isHalfDay,
           fromDate: this.state.fromDate,
           toDate: this.state.toDate,
@@ -137,6 +143,7 @@ export default class RequestLeave extends React.Component {
         this.props.history.push('/my_profile');
       } else {
         message.error('Something went wrong');
+        this.setState({ loading1: false });
       }
     } else {
       message.error('From date must be lower than To date.');
@@ -157,16 +164,16 @@ export default class RequestLeave extends React.Component {
                   Leave Type <span className="required">*</span>
                 </Form.Label>
 
-                <Form.Control as="select" required name="leaveTypeId" onChange={this.formChange} >
+                <Form.Control as="select" required name="leaveTypeId" onChange={this.formChange}>
                   {this.state.dropdownloading ? (
                     <option value="" disabled selected hidden>
                       Loading data. Please Wait...
                     </option>
                   ) : (
-                      <option value="" disabled selected hidden>
-                        Choose...
-                      </option>
-                    )}
+                    <option value="" disabled selected hidden>
+                      Choose...
+                    </option>
+                  )}
                   {this.state.leaveTypeList.map((item) => (
                     <option value={item.id}>{item.name}</option>
                   ))}
@@ -184,9 +191,8 @@ export default class RequestLeave extends React.Component {
                     this.setState({
                       isMultiDay: true,
                       isSingleDay: false,
-                      isHalfDay: false
+                      isHalfDay: false,
                     });
-
                   }}
                   label="Multiple days"
                 />
@@ -199,7 +205,7 @@ export default class RequestLeave extends React.Component {
                       isMultiDay: false,
                       isSingleDay: true,
                       isHalfDay: false,
-                      toDate: this.state.fromDate
+                      toDate: this.state.fromDate,
                     });
                   }}
                   label="Single Day"
@@ -213,12 +219,39 @@ export default class RequestLeave extends React.Component {
                       isMultiDay: false,
                       isSingleDay: false,
                       isHalfDay: true,
-                      toDate: this.state.fromDate
+                      toDate: this.state.fromDate,
                     });
                   }}
                   label="Half Day"
                 />
               </Form.Group>
+              {this.state.isHalfDay ? (
+                <Form.Group>
+                  <Form.Check
+                    inline
+                    type="radio"
+                    defaultChecked={true}
+                    name="halfDayTime"
+                    onChange={(e) => {
+                      this.setState({
+                        halfDayTime: 1,
+                      });
+                    }}
+                    label="Morning"
+                  />
+                  <Form.Check
+                    inline
+                    type="radio"
+                    name="halfDayTime"
+                    onChange={(e) => {
+                      this.setState({
+                        halfDayTime: 2,
+                      });
+                    }}
+                    label="Afternoon"
+                  />
+                </Form.Group>
+              ) : null}
               <Form.Group controlId="exampleForm.ControlSelect3">
                 <Form.Label>
                   Date <span className="required">*</span>
@@ -226,16 +259,31 @@ export default class RequestLeave extends React.Component {
                 <Form.Row>
                   <Col>
                     {' '}
-                    <input className="form-control" type="date" placeholder="yyyy-mm-dd" placeholder="yyyy-mm-dd" required name="fromDate" onChange={this.formChange} />
+                    <input
+                      className="form-control"
+                      type="date"
+                      placeholder="yyyy-mm-dd"
+                      required
+                      name="fromDate"
+                      onChange={this.formChange}
+                    />
                   </Col>
-                  {this.state.isMultiDay ? (<span className="mt-2"> - </span>) : (<span></span>)}
+                  {this.state.isMultiDay ? <span className="mt-2"> - </span> : <span></span>}
 
                   <Col>
                     {this.state.isMultiDay ? (
-                      <input className="form-control" type="date" placeholder="yyyy-mm-dd" required name="toDate" min={this.state.fromDate} onChange={this.formChange} />
+                      <input
+                        className="form-control"
+                        type="date"
+                        placeholder="yyyy-mm-dd"
+                        required
+                        name="toDate"
+                        min={this.state.fromDate}
+                        onChange={this.formChange}
+                      />
                     ) : (
-                        <span></span>
-                      )}
+                      <span></span>
+                    )}
                   </Col>
                 </Form.Row>
               </Form.Group>
@@ -290,10 +338,10 @@ export default class RequestLeave extends React.Component {
                   Please wait
                 </Button>
               ) : (
-                  <Button variant="primary" type="submit">
-                    Request
-                  </Button>
-                )}
+                <Button variant="primary" type="submit">
+                  Request
+                </Button>
+              )}
             </Form>
           </div>
           <div className="col">
@@ -318,21 +366,21 @@ export default class RequestLeave extends React.Component {
                           <b>{new Date(item.date).toLocaleDateString('en-US', DATE_OPTIONS)}</b>
                         </td>
                       ) : (
-                          <td className={item.conflicts.length > 0 ? 'text-warning' : 'text-success'}>
-                            <b>{new Date(item.date).toLocaleDateString('en-US', DATE_OPTIONS)}</b>
-                          </td>
-                        )}
+                        <td className={item.conflicts.length > 0 ? 'text-warning' : 'text-success'}>
+                          <b>{new Date(item.date).toLocaleDateString('en-US', DATE_OPTIONS)}</b>
+                        </td>
+                      )}
                       {item.conflicts.length > 0 ? (
                         <td className="text-warning">
                           <Icon className="mr-1" type={'warning'} />
                           Your Teammate is on leave this day
                         </td>
                       ) : (
-                          <td className="text-success">
-                            <Icon className="mr-1" type={'safety'} />
+                        <td className="text-success">
+                          <Icon className="mr-1" type={'safety'} />
                           No Conflicts
-                          </td>
-                        )}
+                        </td>
+                      )}
                       {item.isholiday.length > 0 ? <td className="text-danger">{item.isholiday[0]?.holiday}</td> : <td></td>}
                     </tr>
                   ))}

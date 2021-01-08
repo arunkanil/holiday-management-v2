@@ -93,8 +93,8 @@ export default class LeaveLog extends React.Component {
   }
   dayRenderer = (value) => {
     console.log('dayRenderer');
-    if (value === true) {
-      return 'Half Day';
+    if (value.isHalfDay === true) {
+      return `Half day - ${value.halfDayTime == 1 ? 'Morning' : 'Afternoon'}`;
     } else {
       return 'Full Day';
     }
@@ -142,7 +142,7 @@ export default class LeaveLog extends React.Component {
                               {['creationTime', 'fromDate', 'toDate', 'actionDate'].includes(innerItem.property)
                                 ? this.dateRenderer(item[innerItem.property])
                                 : innerItem.property === 'isHalfDay'
-                                ? this.dayRenderer(item[innerItem.property])
+                                ? this.dayRenderer(item)
                                 : item[innerItem.property]
                                 ? item[innerItem.property]
                                 : 'no data'}

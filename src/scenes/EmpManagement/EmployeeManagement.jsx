@@ -442,7 +442,7 @@ export default class EmployeeManagement extends React.Component {
                 Login ID <span className="required">*</span>
               </Form.Label>
               <Form.Row>
-                <Col xs={14} md={10}>
+                {/* <Col xs={14} md={10}> */}
                   <Form.Control
                     size="sm"
                     onChange={this.formChange}
@@ -451,8 +451,8 @@ export default class EmployeeManagement extends React.Component {
                     defaultValue={this.state.userName}
                     placeholder="Enter username"
                   />
-                </Col>
-                <Col xs={4} md={2} className="text-right">
+                {/* </Col> */}
+                {/* <Col xs={4} md={2} className="text-right">
                   {this.state.fetchLoading ? (
                     <Button disabled={this.state.fetchLoading} variant="primary" size="sm">
                       <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />
@@ -463,7 +463,7 @@ export default class EmployeeManagement extends React.Component {
                       Fetch
                     </Button>
                   )}
-                </Col>
+                </Col> */}
               </Form.Row>
             </Form.Group>
             <Form.Group>

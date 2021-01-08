@@ -129,7 +129,9 @@ export default class LeaveApproval extends React.Component {
           </div>
           <div className="row">
             <div className="col">Full or half day leave</div>
-            <div className="col font-weight-bold">{this.state.objEditable.isHalfDay ? 'Half Day' : 'Full Day'}</div>
+            <div className="col font-weight-bold">
+              {this.state.objEditable.isHalfDay ? `Half day - ${this.state.objEditable.halfDayTime == 1 ? 'Morning' : 'Afternoon'}` : 'Full Day'}
+            </div>
           </div>
           <div className="row">
             <div className="col">Leave Type</div>
