@@ -29,8 +29,8 @@ const loginRequest = {
 const msalConfig = {
   auth: {
     authority: 'https://login.microsoftonline.com/common',
-    clientId: '8c0864b0-e5d7-4092-b3dc-6bbb2e0f06e5',
-    // clientId: 'e87a5d38-08cd-452f-a485-6ebc1f48af39', //AM Azure client id
+    // clientId: '8c0864b0-e5d7-4092-b3dc-6bbb2e0f06e5',
+    clientId: 'e87a5d38-08cd-452f-a485-6ebc1f48af39', //AM Azure client id
     postLogoutRedirectUri: window.location.origin,
     redirectUri: window.location.origin,
     validateAuthority: true,
@@ -163,8 +163,8 @@ export default class EmployeeManagement extends React.Component {
       if (result.result.refreshDepartment || result.result.refreshDesignation) {
         this.getDataLists();
       }
-      let officeLocation = this.state.countryList.filter((item) => item.name.toLowerCase() == result.result.country.toLowerCase());
-      let jobTitle = this.state.designationList.filter((item) => item.name.toLowerCase() == result.result.jobTitle.toLowerCase());
+      let officeLocation = this.state.countryList.filter((item) => item.name?.toLowerCase() == result.result.country?.toLowerCase());
+      let jobTitle = this.state.designationList.filter((item) => item.name?.toLowerCase() == result.result.jobTitle?.toLowerCase());
       this.setState({
         fetchLoading: false,
         firstName: result.result.givenName,
@@ -172,8 +172,8 @@ export default class EmployeeManagement extends React.Component {
         userName: result.result.userPrincipalName,
         emailAddress: result.result.mail,
         employeeId: result.result.employeeId,
-        designationId: jobTitle[0].id,
-        countryId: officeLocation[0].id,
+        designationId: jobTitle[0]?.id,
+        countryId: officeLocation[0]?.id,
       });
     } else {
       message.error(result.result.error);
@@ -442,7 +442,7 @@ export default class EmployeeManagement extends React.Component {
                 Login ID <span className="required">*</span>
               </Form.Label>
               <Form.Row>
-                {/* <Col xs={14} md={10}> */}
+                <Col xs={14} md={10}>
                   <Form.Control
                     size="sm"
                     onChange={this.formChange}
@@ -451,8 +451,8 @@ export default class EmployeeManagement extends React.Component {
                     defaultValue={this.state.userName}
                     placeholder="Enter username"
                   />
-                {/* </Col> */}
-                {/* <Col xs={4} md={2} className="text-right">
+                </Col>
+                <Col xs={4} md={2} className="text-right">
                   {this.state.fetchLoading ? (
                     <Button disabled={this.state.fetchLoading} variant="primary" size="sm">
                       <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />
@@ -463,7 +463,7 @@ export default class EmployeeManagement extends React.Component {
                       Fetch
                     </Button>
                   )}
-                </Col> */}
+                </Col>
               </Form.Row>
             </Form.Group>
             <Form.Group>

@@ -8,8 +8,8 @@ export const authProvider = new MsalAuthProvider(
   {
     auth: {
       authority: "https://login.microsoftonline.com/common",
-      clientId: "8c0864b0-e5d7-4092-b3dc-6bbb2e0f06e5", 
-      // clientId: "e87a5d38-08cd-452f-a485-6ebc1f48af39", //AM Azure client id
+      // clientId: "8c0864b0-e5d7-4092-b3dc-6bbb2e0f06e5", 
+      clientId: "e87a5d38-08cd-452f-a485-6ebc1f48af39", //AM Azure client id
       postLogoutRedirectUri: window.location.origin,
       redirectUri: window.location.origin,
       validateAuthority: true,
