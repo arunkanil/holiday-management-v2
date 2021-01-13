@@ -2,7 +2,7 @@ import './index.less';
 
 import * as React from 'react';
 
-import { Button, Card, Col, Form, Row } from 'antd';
+import { Button, Card, Col, Divider, Form, Icon, Input, Row } from 'antd';
 import { inject, observer } from 'mobx-react';
 import logo from '../../images/abp-logo-long.png';
 import windows from '../../images/microsoft.svg';
@@ -14,10 +14,10 @@ import { Redirect } from 'react-router-dom';
 import SessionStore from '../../stores/sessionStore';
 import Stores from '../../stores/storeIdentifier';
 // import TenantAvailabilityState from '../../services/account/dto/tenantAvailabilityState';
-// import rules from './index.validation';
+import rules from './index.validation';
 import { authProvider } from '../../authProvider';
 
-// const FormItem = Form.Item;
+const FormItem = Form.Item;
 declare var abp: any;
 const loginRequest2 = {
   scopes: ['openid', 'User.Read'],
@@ -149,7 +149,7 @@ class Login extends React.Component<ILoginProps> {
 
     if (this.props.authenticationStore!.isAuthenticated) return <Redirect to={from} />;
 
-    // const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     return (
       <div className="d-md-flex h-md-100 align-items-center">
         <div className="col-md-6 p-0 bg-indigo h-md-100 login-box">
@@ -184,7 +184,7 @@ class Login extends React.Component<ILoginProps> {
                         {'Login'}
                       </Button>
                       <div><small className="text-muted">Popup blockers interfere with the operation of this application.Please disable your popup blocker.</small></div>
-                      {/* <Divider>Or</Divider>
+                      <Divider>Or</Divider>
                       <FormItem>
                         {getFieldDecorator('userNameOrEmailAddress', { rules: rules.userNameOrEmailAddress })(
                           <Input
@@ -205,9 +205,9 @@ class Login extends React.Component<ILoginProps> {
                             size="large"
                           />
                         )}
-                      </FormItem> */}
+                      </FormItem>
                       {/* <FormItem>{getFieldDecorator('useAzureAD')(<Checkbox>Use Azure AD</Checkbox>)}</FormItem> */}
-                      {/* <Row style={{ textAlign: 'center' }}>
+                      <Row style={{ textAlign: 'center' }}>
                         <Col>
                           <Button
                             loading={this.state.loading}
@@ -218,7 +218,7 @@ class Login extends React.Component<ILoginProps> {
                             {'Login as SuperAdmin'}
                           </Button>
                         </Col>
-                      </Row> */}
+                      </Row>
                     </Card>
                   </Col>
                 </Row>

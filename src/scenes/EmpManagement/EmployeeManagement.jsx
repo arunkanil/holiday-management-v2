@@ -161,10 +161,12 @@ export default class EmployeeManagement extends React.Component {
     console.log(result, 'getEmployeeFromAD');
     if (result.success == true) {
       if (result.result.refreshDepartment || result.result.refreshDesignation) {
-        this.getDataLists();
+        await this.getDataLists();
       }
       let officeLocation = this.state.countryList.filter((item) => item.name?.toLowerCase() == result.result.country?.toLowerCase());
       let jobTitle = this.state.designationList.filter((item) => item.name?.toLowerCase() == result.result.jobTitle?.toLowerCase());
+      let department = this.state.departmentlist.filter((item) => item.name?.toLowerCase() == result.result.department?.toLowerCase());
+      console.log(officeLocation,jobTitle,department);
       this.setState({
         fetchLoading: false,
         firstName: result.result.givenName,
@@ -174,9 +176,11 @@ export default class EmployeeManagement extends React.Component {
         employeeId: result.result.employeeId,
         designationId: jobTitle[0]?.id,
         countryId: officeLocation[0]?.id,
+        departmentId: department[0]?.id,
       });
     } else {
       message.error(result.result.error);
+      this.setState({ fetchLoading: false });
     }
   }
   async getDataLists() {

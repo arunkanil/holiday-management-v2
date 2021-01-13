@@ -36,16 +36,18 @@ const SiderMenu = (props: ISiderMenuProps) => {
           <Avatar shape="square" style={{ height: 27, width: 64 }} src={AbpLogo} />
         </Col>
       ) : (
-        <Col style={{ textAlign: 'center', marginTop: 15, marginBottom: 10 }}>
-          <Avatar shape="square" style={{ height: 54, width: 128 }} src={AbpLogo} />
-        </Col>
-      )}
+          <Col style={{ textAlign: 'center', marginTop: 15, marginBottom: 10 }}>
+            <Avatar shape="square" style={{ height: 54, width: 128 }} src={AbpLogo} />
+          </Col>
+        )}
 
       <Menu theme="dark" mode="inline">
         {appRouters
           .filter((item: any) => !item.isLayout && item.showInMenu && !item.innerMenu)
           .map((route: any, index: number) => {
             if (route.permission && !isGranted(route.permission)) return null;
+            if (route.name == "create_leave_request" && localStorage.getItem("userName") == "admin") return null;
+            if (route.name == "leave_approval" && localStorage.getItem("userName") == "admin") return null;
 
             return (
               <Menu.Item key={route.path} onClick={() => history.push(route.path)}>

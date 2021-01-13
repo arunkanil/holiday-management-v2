@@ -45,7 +45,7 @@ export default class LeaveReport extends React.Component {
   }
   async componentDidMount() {
     this.getLeaveRequests();
-    console.log(isGranted('Pages.Admin'));
+    console.log(isGranted('Pages.Employee'));
   }
   formChange(event) {
     const target = event.target;

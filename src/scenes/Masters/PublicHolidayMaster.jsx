@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { Card, message, Spin } from 'antd';
+import { Card, message, Select, Spin } from 'antd';
 import { DateRenderer } from '../../components/Utils/DateRenderer';
 import { ActionRenderer } from '../../components/Utils/StatusRenderer';
 import ModalWrapper from '../../components/Modal/ModalWrapper';
@@ -9,6 +9,7 @@ import { PublicHolidaysMasterColumnDefs } from '../../constants/columnMetadata';
 import { PostAPICall, DeleteAPICall, GetAPICall } from '../../services/dataservice';
 import { DELETE_PUBLICHOLIDAY, GET_COUNTRY, GET_PUBLICHOLIDAY, POST_PUBLICHOLIDAY } from '../../constants/urls';
 
+const { Option } = Select;
 const frameworkComponents = {
   statusRenderer: ActionRenderer,
   dateRenderer: DateRenderer,
@@ -169,32 +170,23 @@ export default class PublicHolidayMaster extends React.Component {
                   <Form.Label>
                     Country <span className="required">*</span>
                   </Form.Label>
-                  <Form.Control
+                  <Select
                     as="select"
                     name="country"
                     required
-                    multiple={true}
-                    onChange={(e) => {
-                      let value = Array.from(e.target.selectedOptions, (option) => option.value);
+                    placeholder="Choose..."
+                    mode="multiple"
+                    style={{ width: '100%' }}
+                    onChange={(value) => {
+                      // let value = Array.from(e.target.selectedOptions, (option) => option.value);
                       this.setState({ country: value });
                       console.log(value);
                     }}
                   >
-                    <option value="" disabled selected hidden>
-                      Choose...
-                    </option>
                     {this.state.countryList.map((item) => (
-                      <option value={item.id}>{item.name}</option>
+                      <Option value={item.id}>{item.name}</Option>
                     ))}
-                  </Form.Control>
-                  <small className="text-muted">Hold ctrl key to select multiple countries.</small>
-                  {this.state.country.length > 0 ? <div className="text-primary">Selected Countries</div> : null}
-                  <div className="text-primary">
-                    {this.state.countryList.map((item) =>
-                      // console.log(item,this.state.country)
-                      this.state.country.toString().includes(item.id) ? <span>{item.name}, </span> : null
-                    )}
-                  </div>
+                  </Select>
                 </Form.Group>
                 <Form.Group controlId="exampleForm.ControlSelect2">
                   <Form.Label>
@@ -202,6 +194,7 @@ export default class PublicHolidayMaster extends React.Component {
                   </Form.Label>
                   <div className="row mx-0">
                     <input className="form-control col" type="date" placeholder="yyyy-mm-dd" required name="fromDate" onChange={this.formChange} />
+                    <span className="mt-2 mx-2"> to </span>
                     <input
                       className="form-control col"
                       type="date"

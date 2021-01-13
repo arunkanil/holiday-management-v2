@@ -16,6 +16,13 @@ export const userRouter: any = [
     component: LoadableComponent(() => import('../../scenes/Login')),
     showInMenu: false,
   },
+  {
+    path: '/user/adminlogin',
+    name: 'login',
+    title: 'Admin LogIn',
+    component: LoadableComponent(() => import('../../scenes/AdminLogin')),
+    showInMenu: false,
+  },
 ];
 
 export const appRouters: any = [
