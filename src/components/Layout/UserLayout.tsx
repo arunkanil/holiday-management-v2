@@ -32,7 +32,13 @@ class UserLayout extends React.Component<any> {
 
             <Redirect from="/user" to="/user/login" />
           </Switch>
-          {this.props.location.pathname === '/user/login' || this.props.location.pathname === '/user/AdminLogin' ? null : <Footer />}
+          {this.props.location.pathname === '/user/login' ||
+          this.props.location.pathname == '/user/adminlogin' ||
+          this.props.location.pathname == '/user/Adminlogin' ||
+          this.props.location.pathname == '/user/AdminLogin' ||
+          this.props.location.pathname == '/user/adminLogin' ? null : (
+            <Footer />
+          )}
         </Col>
       </DocumentTitle>
     );
