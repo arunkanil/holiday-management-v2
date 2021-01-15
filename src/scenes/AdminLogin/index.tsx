@@ -98,8 +98,8 @@ class Login extends React.Component<ILoginProps> {
         .then((result) => {
           console.log(result);
           console.log('access_token', result.accessToken);
-          localStorage.setItem('azureToken',result.accessToken);
-          localStorage.setItem('expiresOn',result.expiresOn.toString());
+          localStorage.setItem('azureToken', result.accessToken);
+          localStorage.setItem('expiresOn', result.expiresOn.toString());
           console.log('username', result.account.userName);
           values = {
             userNameOrEmailAddress: username,
@@ -180,10 +180,14 @@ class Login extends React.Component<ILoginProps> {
                         style={{ color: 'white', marginTop: '50px', width: '165px' }}
                         type="primary"
                       >
-                        <img src={windows} style={{ width: '14px',marginRight:'5px' }} />
+                        <img src={windows} style={{ width: '14px', marginRight: '5px' }} />
                         {'Login'}
                       </Button>
-                      <div><small className="text-muted">Popup blockers interfere with the operation of this application.Please disable your popup blocker.</small></div>
+                      <div>
+                        <small className="text-muted">
+                          Popup blockers interfere with the operation of this application.Please disable your popup blocker.
+                        </small>
+                      </div>
                       <Divider>Or</Divider>
                       <FormItem>
                         {getFieldDecorator('userNameOrEmailAddress', { rules: rules.userNameOrEmailAddress })(
@@ -228,8 +232,9 @@ class Login extends React.Component<ILoginProps> {
           </div>
           <Row className="footnote">
             Powered by{' '}
-            <a target="_blank" rel="noopener noreferrer" className="text-danger" href="https://untanglestrategy.com/">
-              Untangle_
+            <a target="_blank" rel="noopener noreferrer" href="https://untanglestrategy.com/">
+              <span className="text-danger">Untangle</span>
+              <span style={{ color: 'grey' }}>_</span>
             </a>
           </Row>
         </div>

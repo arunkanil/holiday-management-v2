@@ -232,8 +232,9 @@ class Login extends React.Component<ILoginProps> {
           </div>
           <Row className="footnote">
             Powered by{' '}
-            <a target="_blank" rel="noopener noreferrer" className="text-danger" href="https://untanglestrategy.com/">
-              Untangle_
+            <a target="_blank" rel="noopener noreferrer" href="https://untanglestrategy.com/">
+              <span className="text-danger">Untangle</span>
+              <span style={{ color: 'grey' }}>_</span>
             </a>
           </Row>
         </div>

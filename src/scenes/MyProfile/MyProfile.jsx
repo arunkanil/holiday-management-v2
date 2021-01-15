@@ -132,6 +132,46 @@ export default class EmployeeProfile extends React.Component {
     });
     console.log(date.year(), 'panel change', mode);
   };
+  monthRenderer = () => {
+    switch (this.state.month) {
+      case 0:
+        return 'January';
+        break;
+      case 1:
+        return 'February';
+        break;
+      case 2:
+        return 'March';
+        break;
+      case 3:
+        return 'April';
+        break;
+      case 4:
+        return 'May';
+        break;
+      case 5:
+        return 'June';
+        break;
+      case 6:
+        return 'July';
+        break;
+      case 7:
+        return 'August';
+        break;
+      case 8:
+        return 'September';
+        break;
+      case 9:
+        return 'October';
+        break;
+      case 10:
+        return 'November';
+        break;
+      case 11:
+        return 'December';
+        break;
+    }
+  };
   onFullRender = (date) => {
     let style;
     const day = date.date();
@@ -241,7 +281,7 @@ export default class EmployeeProfile extends React.Component {
                 </div>
                 <div className="col">
                   <br />
-                  <h6 style={{ color: '#e95a5a' }}>Public Holidays</h6>
+                  <h6 style={{ color: '#e95a5a' }}>Public Holidays - {this.monthRenderer()}</h6>
                   {this.state.filteredPublicHolidays.map((eventItem, index) => (
                     <span>
                       <br />
