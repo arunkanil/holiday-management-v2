@@ -28,7 +28,9 @@ export default class EmployeeProfile extends React.Component {
       },
       leaveCount: {},
       publicHolidays: [],
+      filteredPublicHolidays: [],
       year: today.year(),
+      month: new Date().getMonth(),
       selectedDay: today,
       selectedRange: [today, moment(today).add(15, 'day')],
       showDaysOfWeek: true,
@@ -58,7 +60,9 @@ export default class EmployeeProfile extends React.Component {
     let my_leavedashboard = await GetAPICall(GET_MYLEAVEDASHBOARDS + '?year=' + this.state.year);
     console.log('GET_MYLEAVEDASHBOARDS', my_leavedashboard.result);
     let leaveTypeDetails = my_leavedashboard.result.leaveTypeDetails;
-    let publicHolidays = my_leavedashboard.result.publicHolidays;
+    let publicHolidays = my_leavedashboard.result.publicHolidays?.sort(function (a, b) {
+      return new Date(a.date) - new Date(b.date);
+    });
     let leaveRequested = [],
       leaveRejected = [],
       leaveApproved = [];
@@ -81,17 +85,23 @@ export default class EmployeeProfile extends React.Component {
       });
     });
 
-    this.setState({
-      customCSSclasses: {
-        leaveRejected: leaveRejected,
-        leaveRequested: leaveRequested,
-        weekend: 'Sat,Sun',
-        leaveApproved: leaveApproved,
+    this.setState(
+      {
+        customCSSclasses: {
+          leaveRejected: leaveRejected,
+          leaveRequested: leaveRequested,
+          weekend: 'Sat,Sun',
+          leaveApproved: leaveApproved,
+        },
+        publicHolidays,
+        filteredPublicHolidays: publicHolidays.filter((item) => new Date(item.date).getMonth() == this.state.month),
+        loading: false,
+        leaveTypeDetails: leaveTypeDetails,
       },
-      publicHolidays,
-      loading: false,
-      leaveTypeDetails: leaveTypeDetails,
-    });
+      function () {
+        console.log(this.state.filteredPublicHolidays);
+      }
+    );
 
     this.updateClasses();
   }
@@ -117,7 +127,7 @@ export default class EmployeeProfile extends React.Component {
     }
   }
   onPanelChange = (date, mode) => {
-    this.setState({ year: date.year() }, function () {
+    this.setState({ year: date.year(), month: new Date(date).getMonth() }, function () {
       this.getMyLeaveDashboards();
     });
     console.log(date.year(), 'panel change', mode);
@@ -232,7 +242,7 @@ export default class EmployeeProfile extends React.Component {
                 <div className="col">
                   <br />
                   <h6 style={{ color: '#e95a5a' }}>Public Holidays</h6>
-                  {this.state.publicHolidays.map((eventItem, index) => (
+                  {this.state.filteredPublicHolidays.map((eventItem, index) => (
                     <span>
                       <br />
                       <div className="row">
