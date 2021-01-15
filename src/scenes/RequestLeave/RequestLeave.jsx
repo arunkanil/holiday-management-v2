@@ -82,13 +82,32 @@ export default class RequestLeave extends React.Component {
     });
   }
   getConflits = async () => {
-    if (this.state.fromDate && this.state.toDate) {
-      let leaveConflicts = await GetAPICall(`${GET_LEAVECONFLICTS}FromDate=${this.state.fromDate}&ToDate=${this.state.toDate}`);
+    if (this.state.isMultiDay) {
+      if (this.state.fromDate && this.state.toDate) {
+        let leaveConflicts = await GetAPICall(`${GET_LEAVECONFLICTS}FromDate=${this.state.fromDate}&ToDate=${this.state.toDate}`);
+        this.setState({
+          conflicts: leaveConflicts.result.conflicts,
+        });
+        let fromDate = new Date(this.state.fromDate),
+          toDate = new Date(this.state.toDate),
+          arrTime = [];
+        for (let q = fromDate; q <= toDate; q.setDate(q.getDate() + 1)) {
+          arrTime.push({
+            date: q.toISOString(),
+            isWeekend: leaveConflicts.result.weekends.includes(q.toISOString().slice(0, 19)),
+            isholiday: leaveConflicts.result.holidays.filter((day) => day.date == q.toISOString().slice(0, 19)),
+            conflicts: leaveConflicts.result.conflicts.filter((day) => day.date == q.toISOString().slice(0, 19)),
+          });
+        }
+        this.setState({ conflictArray: arrTime, totalWorkingDays: leaveConflicts.result.totalWorkingDays });
+      }
+    } else {
+      let leaveConflicts = await GetAPICall(`${GET_LEAVECONFLICTS}FromDate=${this.state.fromDate}&ToDate=${this.state.fromDate}`);
       this.setState({
         conflicts: leaveConflicts.result.conflicts,
       });
       let fromDate = new Date(this.state.fromDate),
-        toDate = new Date(this.state.toDate),
+        toDate = new Date(this.state.fromDate),
         arrTime = [];
       for (let q = fromDate; q <= toDate; q.setDate(q.getDate() + 1)) {
         arrTime.push({
@@ -259,16 +278,9 @@ export default class RequestLeave extends React.Component {
                 <Form.Row>
                   <Col>
                     {' '}
-                    <input
-                      className="form-control"
-                      type="date"
-                      placeholder="yyyy-mm-dd"
-                      required
-                      name="fromDate"
-                      onChange={this.formChange}
-                    />
+                    <input className="form-control" type="date" placeholder="yyyy-mm-dd" required name="fromDate" onChange={this.formChange} />
                   </Col>
-                  {this.state.isMultiDay ? <span className="mt-2"> - </span> : <span></span>}
+                  {this.state.isMultiDay ? <span className="mt-2"> to </span> : <span></span>}
 
                   <Col>
                     {this.state.isMultiDay ? (

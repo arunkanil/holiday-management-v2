@@ -98,8 +98,8 @@ class Login extends React.Component<ILoginProps> {
         .then((result) => {
           console.log(result);
           console.log('access_token', result.accessToken);
-          localStorage.setItem('azureToken',result.accessToken);
-          localStorage.setItem('expiresOn',result.expiresOn.toString());
+          localStorage.setItem('azureToken', result.accessToken);
+          localStorage.setItem('expiresOn', result.expiresOn.toString());
           console.log('username', result.account.userName);
           values = {
             userNameOrEmailAddress: username,
@@ -161,30 +161,34 @@ class Login extends React.Component<ILoginProps> {
           <div className="d-md-flex align-items-center h-md-100 justify-content-center">
             {/* <Col className="name"> */}
             <Form className="" onSubmit={this.handleSubmit}>
-              <Row>
-                <Row style={{ marginTop: 10 }}>
-                  <Col>
-                    <img src={logo} alt="arcelor logo" className="mx-auto d-block" style={{ width: '60%', marginLeft: '30px' }} />
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: 10, textAlign: 'center' }}>
-                  <Col>
-                    <Card>
-                      <div style={{ textAlign: 'center' }}>
-                        <h3>{L('Holiday Approval System')}</h3>
-                      </div>
+              {/* <Row> */}
+              <Row style={{ marginTop: 10 }}>
+                <Col>
+                  <img src={logo} alt="arcelor logo" className="mx-auto d-block" style={{ width: '60%', marginLeft: '30px' }} />
+                </Col>
+              </Row>
+              <Row style={{ marginTop: 10, textAlign: 'center' }}>
+                <Col>
+                  <Card>
+                    <div style={{ textAlign: 'center' }}>
+                      <h3>{L('Holiday Approval System')}</h3>
+                    </div>
 
-                      <Button
-                        loading={this.state.loading1}
-                        onClick={this.azureSignIn}
-                        style={{ color: 'white', marginTop: '50px', width: '165px' }}
-                        type="primary"
-                      >
-                        <img src={windows} style={{ width: '14px',marginRight:'5px' }} />
-                        {'Login'}
-                      </Button>
-                      <div><small className="text-muted">Popup blockers interfere with the operation of this application.Please disable your popup blocker.</small></div>
-                      {/* <Divider>Or</Divider>
+                    <Button
+                      loading={this.state.loading1}
+                      onClick={this.azureSignIn}
+                      style={{ color: 'white', marginTop: '50px', width: '165px' }}
+                      type="primary"
+                    >
+                      <img src={windows} style={{ width: '14px', marginRight: '5px' }} />
+                      {'Login'}
+                    </Button>
+                    <div style={{ marginTop: '50px' }}>
+                      <small className="text-muted">
+                        Popup blockers interfere with the operation of this application.Please disable your popup blocker.
+                      </small>
+                    </div>
+                    {/* <Divider>Or</Divider>
                       <FormItem>
                         {getFieldDecorator('userNameOrEmailAddress', { rules: rules.userNameOrEmailAddress })(
                           <Input
@@ -206,8 +210,8 @@ class Login extends React.Component<ILoginProps> {
                           />
                         )}
                       </FormItem> */}
-                      {/* <FormItem>{getFieldDecorator('useAzureAD')(<Checkbox>Use Azure AD</Checkbox>)}</FormItem> */}
-                      {/* <Row style={{ textAlign: 'center' }}>
+                    {/* <FormItem>{getFieldDecorator('useAzureAD')(<Checkbox>Use Azure AD</Checkbox>)}</FormItem> */}
+                    {/* <Row style={{ textAlign: 'center' }}>
                         <Col>
                           <Button
                             loading={this.state.loading}
@@ -219,10 +223,10 @@ class Login extends React.Component<ILoginProps> {
                           </Button>
                         </Col>
                       </Row> */}
-                    </Card>
-                  </Col>
-                </Row>
+                  </Card>
+                </Col>
               </Row>
+              {/* </Row> */}
             </Form>
             {/* </Col> */}
           </div>

@@ -50,7 +50,7 @@ export default class PublicHolidayMaster extends React.Component {
   }
   async getPublicHolidays(value) {
     this.setState({ loading: true, loading1: false });
-    let result = await GetAPICall(`${GET_PUBLICHOLIDAY}${value ? value : new Date().getFullYear()}`);
+    let result = await GetAPICall(`${GET_PUBLICHOLIDAY}${value ? value : new Date().getFullYear()}&Sorting=date asc`);
     console.log(result, 'getPublicHolidays');
     this.setState({ rowData: result.result.items, loading: false });
   }

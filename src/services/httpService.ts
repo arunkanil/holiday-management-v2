@@ -10,7 +10,7 @@ declare var abp: any;
 const http = axios.create({
   baseURL: AppConsts.remoteServiceBaseUrl,
   timeout: 30000,
-  paramsSerializer: function(params) {
+  paramsSerializer: function (params) {
     return qs.stringify(params, {
       encode: false,
     });
@@ -18,7 +18,7 @@ const http = axios.create({
 });
 
 http.interceptors.request.use(
-  function(config) {
+  function (config) {
     if (!!abp.auth.getToken()) {
       config.headers.common['Authorization'] = 'Bearer ' + abp.auth.getToken();
     }
@@ -28,16 +28,16 @@ http.interceptors.request.use(
 
     return config;
   },
-  function(error) {
+  function (error) {
     return Promise.reject(error);
   }
 );
 
 http.interceptors.response.use(
-  response => {
+  (response) => {
     return response;
   },
-  error => {
+  (error) => {
     if (!!error.response && !!error.response.data.error && !!error.response.data.error.message && error.response.data.error.details) {
       Modal.error({
         title: error.response.data.error.message,
@@ -49,7 +49,10 @@ http.interceptors.response.use(
         content: error.response.data.error.message,
       });
     } else if (!error.response) {
-      Modal.error({ content: L('UnknownError') });
+      Modal.error({
+        title: L('LoginFailed'),
+        content: L('Looks like you have an unstable network at the moment, Please check your network connection.'),
+      });
     }
 
     setTimeout(() => {}, 1000);

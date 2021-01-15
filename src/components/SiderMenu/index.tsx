@@ -47,8 +47,8 @@ const SiderMenu = (props: ISiderMenuProps) => {
           .map((route: any, index: number) => {
             if (route.permission && !isGranted(route.permission)) return null;
             if (route.name == "create_leave_request" && localStorage.getItem("userName") == "admin") return null;
+            if (route.name == "my_profile" && localStorage.getItem("userName") == "admin") return null;
             if (route.name == "leave_approval" && localStorage.getItem("userName") == "admin") return null;
-
             return (
               <Menu.Item key={route.path} onClick={() => history.push(route.path)}>
                 <Icon type={route.icon} />
