@@ -101,6 +101,7 @@ export default class EmployeeManagement extends React.Component {
       empprofileAD: {},
       firstName: '',
       lastName: '',
+      gender: '',
       emailAddress: '',
       userName: '',
       employeeId: '',
@@ -113,6 +114,7 @@ export default class EmployeeManagement extends React.Component {
 
       edited_firstName: '',
       edited_lastName: '',
+      edited_gender: '',
       edited_emailAddress: '',
       edited_userName: '',
       edited_employeeId: '',
@@ -166,7 +168,7 @@ export default class EmployeeManagement extends React.Component {
       let officeLocation = this.state.countryList.filter((item) => item.name?.toLowerCase() == result.result.country?.toLowerCase());
       let jobTitle = this.state.designationList.filter((item) => item.name?.toLowerCase() == result.result.jobTitle?.toLowerCase());
       let department = this.state.departmentlist.filter((item) => item.name?.toLowerCase() == result.result.department?.toLowerCase());
-      console.log(officeLocation,jobTitle,department);
+      console.log(officeLocation, jobTitle, department);
       this.setState({
         fetchLoading: false,
         firstName: result.result.givenName,
@@ -216,8 +218,7 @@ export default class EmployeeManagement extends React.Component {
       console.log(result, 'file upload');
       message.success('File uploaded succesfully');
       this.setState({ file: result.result, loading: false });
-    }
-    else {
+    } else {
       message.error('Something went wrong');
       this.setState({ loading: false });
     }
@@ -250,6 +251,7 @@ export default class EmployeeManagement extends React.Component {
     let formdata = {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
+      gender: this.state.gender,
       emailAddress: this.state.emailAddress,
       employeeId: this.state.employeeId,
       userName: this.state.userName,
@@ -265,18 +267,18 @@ export default class EmployeeManagement extends React.Component {
     if (result.success === true) {
       message.success('Employee added successfully');
       this.setState({
-        firstName: "",
-        lastName: "",
-        emailAddress: "",
-        employeeId: "",
-        userName: "",
-        officeLocation: "",
-        reportsTo: "",
-        secondaryApprover: "",
-        designationId: "",
-        departmentId: "",
-        countryId: "",
-      })
+        firstName: '',
+        lastName: '',
+        emailAddress: '',
+        employeeId: '',
+        userName: '',
+        officeLocation: '',
+        reportsTo: '',
+        secondaryApprover: '',
+        designationId: '',
+        departmentId: '',
+        countryId: '',
+      });
       this.getEmployees();
       this.getDataLists();
     } else {
@@ -310,6 +312,7 @@ export default class EmployeeManagement extends React.Component {
       showEditModal: true,
       edited_firstName: value.firstName,
       edited_lastName: value.lastName,
+      edited_gender: value.gender,
       edited_userName: value.userName,
       edited_emailAddress: value.emailAddress,
       edited_employeeId: value.employeeId,
@@ -329,6 +332,7 @@ export default class EmployeeManagement extends React.Component {
     let payload = {
       firstName: this.state.edited_firstName,
       lastName: this.state.edited_lastName,
+      gender: this.state.edited_gender,
       emailAddress: this.state.edited_emailAddress,
       userName: this.state.objEditable.userName,
       employeeId: this.state.edited_employeeId,
@@ -442,6 +446,30 @@ export default class EmployeeManagement extends React.Component {
               </Form.Row>
             </Form.Group>
             <Form.Group>
+              <Form.Check
+                inline
+                type="radio"
+                name="gender"
+                onChange={(e) => {
+                  this.setState({
+                    gender: 1,
+                  });
+                }}
+                label="Male"
+              />
+              <Form.Check
+                inline
+                type="radio"
+                name="gender"
+                onChange={(e) => {
+                  this.setState({
+                    gender: 2,
+                  });
+                }}
+                label="Female"
+              />
+            </Form.Group>
+            <Form.Group>
               <Form.Label>
                 Login ID <span className="required">*</span>
               </Form.Label>
@@ -549,6 +577,32 @@ export default class EmployeeManagement extends React.Component {
                   <Form.Control size="sm" required onChange={this.formChange} name="edited_lastName" defaultValue={this.state.objEditable.lastName} />
                 </Col>
               </Form.Row>
+            </Form.Group>
+            <Form.Group>
+              <Form.Check
+                inline
+                type="radio"
+                name="gender"
+                defaultChecked={this.state.objEditable.gender == 1 ? true : false}
+                onChange={(e) => {
+                  this.setState({
+                    edited_gender: 1,
+                  });
+                }}
+                label="Male"
+              />
+              <Form.Check
+                inline
+                type="radio"
+                name="gender"
+                defaultChecked={this.state.objEditable.gender == 2 ? true : false}
+                onChange={(e) => {
+                  this.setState({
+                    edited_gender: 2,
+                  });
+                }}
+                label="Female"
+              />
             </Form.Group>
             <Form.Group>
               <Form.Label>

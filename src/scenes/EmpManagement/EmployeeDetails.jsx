@@ -68,6 +68,12 @@ export default class EmployeeDetails extends React.Component {
                 {this.state.details.firstName} {this.state.details.lastName}
               </td>
             </tr>
+            <tr>
+              <td>Gender</td>
+              <td>
+                {this.state.details.gender == 1 ? "Male" : "Female"}
+              </td>
+            </tr>
             {mapper.map((item) => (
               <tr>
                 <td>{item.name}</td>
