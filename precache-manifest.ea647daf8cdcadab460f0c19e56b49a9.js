@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3d3c2e6755b24092eb0f19b50610e5f3",
+    "revision": "536669f79941bddf41b8e795b74c264d",
     "url": "/holiday-management-v2/index.html"
   },
   {
@@ -80,7 +80,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/holiday-management-v2/static/css/33.8a0e26d2.chunk.css"
   },
   {
-    "revision": "75055e47329ee0043399",
+    "revision": "7a0c2b3b289256b70543",
     "url": "/holiday-management-v2/static/css/34.819092da.chunk.css"
   },
   {
@@ -152,12 +152,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/holiday-management-v2/static/js/17.d8091d5f.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "8ec4537fdfd1764c44ad",
-    "url": "/holiday-management-v2/static/js/18.76e5c47f.chunk.js"
+    "revision": "38596796d816348ce745",
+    "url": "/holiday-management-v2/static/js/18.5cdb484b.chunk.js"
   },
   {
     "revision": "390eacea26ecab493caf24c949d5efdb",
-    "url": "/holiday-management-v2/static/js/18.76e5c47f.chunk.js.LICENSE.txt"
+    "url": "/holiday-management-v2/static/js/18.5cdb484b.chunk.js.LICENSE.txt"
   },
   {
     "revision": "2f04c91ef4331abe3a88",
@@ -268,8 +268,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/holiday-management-v2/static/js/33.3ba3a4eb.chunk.js"
   },
   {
-    "revision": "75055e47329ee0043399",
-    "url": "/holiday-management-v2/static/js/34.6c5fd891.chunk.js"
+    "revision": "7a0c2b3b289256b70543",
+    "url": "/holiday-management-v2/static/js/34.1cd4b754.chunk.js"
   },
   {
     "revision": "45494f728b273e2e1ad4",
@@ -296,8 +296,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/holiday-management-v2/static/js/main.f68b333a.chunk.js"
   },
   {
-    "revision": "7cd5ae325a2125e175ca",
-    "url": "/holiday-management-v2/static/js/runtime-main.967c81f3.js"
+    "revision": "f9ed2d5fdb313c0e2633",
+    "url": "/holiday-management-v2/static/js/runtime-main.22425cb9.js"
   },
   {
     "revision": "10ebf9189344922639b131e345327395",
@@ -332,8 +332,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/holiday-management-v2/static/media/edit.2ab22136.svg"
   },
   {
-    "revision": "a445cfdebdda60460be577a82b2c92aa",
-    "url": "/holiday-management-v2/static/media/empdata.a445cfde.xlsx"
+    "revision": "db69a827c1ee51b6b74c0d922e56513f",
+    "url": "/holiday-management-v2/static/media/empdata.db69a827.xlsx"
   },
   {
     "revision": "0502e76342919a809bd6c72973c8ca3a",
